@@ -1,0 +1,126 @@
+#include <18F4431.h>
+#fuses  NOWDT,PUT,HS,NOPROTECT,NOLVP
+#use  delay(clock=20000000)
+/*
+#include <18F4550.h> 
+#device PASS_STRINGS = IN_RAM    
+#DEVICE ADC=10                 
+#fuses HSPLL,MCLR,NOWDT,NOPROTECT,NOLVP,NODEBUG,USBDIV,PLL5,CPUDIV1,VREGEN                 
+#use delay(clock=48000000)   
+      
+   */     
+#int_TIMER1  
+ void  TIMER1_isr(void) 
+{
+    Set_timer1(50000);// time lay mau
+    // Motor_Speed_PID(400);
+}
+      
+ //=============================================================================     
+      
+   void main()
+      {
+      
+  //   setup_timer_1(T1_INTERNAL|T1_DIV_BY_8);
+     // set_power_pwm_override(0, false, 1);
+ //   enable_interrupts(INT_TIMER1);
+ //    enable_interrupts(GLOBAL);// cho phep ngat toan cuc
+      output_high(PIN_D7);
+      output_high(PIN_D6);
+      output_high(PIN_D5);
+      output_high(PIN_D4);
+      delay_ms(100);
+      while(1)
+      {
+      output_high(PIN_D7);
+      output_high(PIN_D6);
+      output_high(PIN_D5);
+      output_high(PIN_D4);
+      
+    //KIEM TRA MODE
+    
+ while(!input(PIN_A0))//mode chay luon tu dau
+ {  output_low(PIN_D7); //chay dong co luon tu dau
+    delay_ms(300);
+    if(!input(PIN_E0))//START
+   {  
+    while(input(PIN_A5))// chay lui cho den khi dung ct1
+      {
+      output_low(PIN_D5);// chay lui
+         
+      }
+      output_high(PIN_D5);// dung lui
+      delay_ms(300);
+    while(input(PIN_A4))// chay toi cho den khi tac dong vi tri
+   {      
+      output_low(PIN_D6);     
+     // delay_ms(100);
+      //  delay_ms(2000);
+   }
+    output_high(PIN_D6);// dong tat ca cac van dau
+    output_high(PIN_D5);//dung lui
+     delay_ms(300);
+   }
+    if(!input(PIN_E1))//end
+   { while(input(PIN_A5))// chay lui cho den khi dung ct1
+      {output_low(PIN_D5);// chay lui
+      
+      }
+      output_high(PIN_D5);// dung lui
+      delay_ms(300);
+   }
+ }
+ while(input(PIN_A0))
+ { 
+  if(!input(PIN_E0))//START
+   {  
+    while(input(PIN_A5))// chay lui cho den khi dung ct1
+      {output_low(PIN_D5);// chay lui
+      
+      }
+      output_high(PIN_D5);// dung lui
+      delay_ms(300);
+    while(input(PIN_A4))// chay toi cho den khi tac dong vi tri
+   {      
+      output_low(PIN_D6);     
+      //delay_ms(100);
+      //  delay_ms(2000);
+   }
+    output_high(PIN_D6);// dong tat ca cac van dau
+    output_high(PIN_D5);
+    output_low(PIN_D7); //chay dong co bat dau chay
+    delay_ms(100);
+    
+     delay_ms(300);
+   }
+  
+  if(!input(PIN_E1))//end
+   { output_high(PIN_D7); //chay dong co bat dau chay
+    delay_ms(300);
+   while(input(PIN_A5))// chay lui cho den khi dung ct1
+      {output_low(PIN_D5);// cha
+        
+      }
+      output_high(PIN_D5);// dung 
+      delay_ms(300);
+   }
+  
+ }
+ 
+/*else
+      {   output_high(PIN_D7);
+      delay_ms(200);
+  delay_ms(200);
+      delay_ms(2000);
+        delay_ms(2000); 
+     output_low(PIN_D6);
+         delay_ms(200);
+      delay_ms(2000);
+       delay_ms(2000); 
+           output_high(PIN_D6);
+      delay_ms(2000);
+       delay_ms(2000); 
+      */   
+       //}//
+       }
+  }       

@@ -1,0 +1,4 @@
+>>> Warning 202 "MayDapGian_v1.c" Line 4(28,36): Variable never used:   mode_tay
+      Memory usage:   ROM=2%      RAM=1% - 1%
+      0 Errors,  1 Warnings.
+Build Successful.

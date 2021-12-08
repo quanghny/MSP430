@@ -1,0 +1,63 @@
+[PROJECT]
+Target=MayDapGian_v1.hex
+Processor_Text=PIC18F4431
+CCSVerions=5.025
+Compiler=PCH
+CCSVersion=5.025
+[Target Data]
+FileList=MayDapGian_v1.c
+[Directories]
+Include=
+[E:\PIC C\F4550\MayDapGian_v1\MayDapGian_v1]
+Type=4
+[mru-list]
+1=MayDapGian_v1.c
+
+[ProjectLog]
+Days=3
+D1=18-04-2018
+D1_L=20
+D1_L1=[32900]Project Opened.
+D1_L2=[32959]Started Editing.
+D1_L3=[33337]Stopped Editing.
+D1_L4=[33536]Started Editing.
+D1_L5=[33942]Stopped Editing.
+TotalEdit=12
+TotalDebug=0
+D1_E=12
+D1_D=0
+D1_L6=[34271]Project Closed.
+D1_L7=[39854]Project Opened.
+D1_L8=[40039]Started Editing.
+D1_L9=[40470]Stopped Editing.
+D1_L10=[40472]Project Closed.
+D1_L11=[41109]Project Opened.
+D1_L12=[41378]Started Editing.
+D1_L13=[44049]Stopped Editing.
+D1_L14=[44625]Started Editing.
+D1_L15=[45123]Stopped Editing.
+D1_L16=[46763]Started Editing.
+D1_L17=[47270]Stopped Editing.
+D1_L18=[47385]Started Editing.
+D1_L19=[53806]Project Opened.
+D1_L20=[53829]Project Closed.
+D2=26-04-2018
+D2_L=2
+D2_L1=[63446]Project Opened.
+D2_L2=[63668]Project Closed.
+D3=10-10-2021
+D3_L=4
+D3_L1=[38743]Project Opened.
+D3_L2=[40653]Project Closed.
+D3_L3=[62976]Project Opened.
+D3_L4=[63319]Project Closed.
+
+[Opened Files]
+1=MayDapGian_v1.c
+2=..\MayDapGian\main.c
+3=
+[MayDapGian_v1.c]
+Type=4
+[Units]
+Count=1
+1=MayDapGian_v1 (main)

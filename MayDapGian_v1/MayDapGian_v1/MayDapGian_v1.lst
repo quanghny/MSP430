@@ -1,0 +1,328 @@
+CCS PCH C Compiler, Version 5.025, 5967               18-Apr-18 13:10
+
+               Filename:   E:\PIC C\F4550\MayDapGian_v1\MayDapGian_v1.lst
+
+               ROM used:   354 bytes (2%)
+                           Largest free fragment is 16030
+               RAM used:   7 (1%) at main() level
+                           7 (1%) worst case
+               Stack used: 2 locations
+               Stack size: 31
+
+*
+0000:  GOTO   0066
+.................... #include <18F4431.h> 
+.................... //////////// Standard Header file for the PIC18F4431 device //////////////// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996, 2013 Custom Computer Services          //// 
+.................... //// This source code may only be used by licensed users of the CCS C  //// 
+.................... //// compiler.  This source code may only be distributed to other      //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction //// 
+.................... //// or distribution is permitted without written permission.          //// 
+.................... //// Derivative programs created using this software in object code    //// 
+.................... //// form are not restricted in any way.                               //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... #device PIC18F4431 
+....................  
+.................... #list 
+....................  
+.................... #fuses  NOWDT,PUT,HS,NOPROTECT,NOLVP 
+.................... #use  delay(clock=20000000) 
+0004:  CLRF   FEA
+0006:  MOVLW  05
+0008:  MOVWF  FE9
+000A:  MOVF   FEF,W
+000C:  BZ    0028
+000E:  MOVLW  06
+0010:  MOVWF  01
+0012:  CLRF   00
+0014:  DECFSZ 00,F
+0016:  BRA    0014
+0018:  DECFSZ 01,F
+001A:  BRA    0012
+001C:  MOVLW  7B
+001E:  MOVWF  00
+0020:  DECFSZ 00,F
+0022:  BRA    0020
+0024:  DECFSZ FEF,F
+0026:  BRA    000E
+0028:  RETURN 0
+.................... int1 START_STT=0,END_STT=0,mode_tay=0; 
+.................... int1 en_Start=0,en_End=0; 
+.................... //mode=1 ep chan; mode=0 ep dau; 
+.................... //autoRun=1 tu dong; 
+....................  
+.................... //ngo ra dong co thuy luc 
+.................... #define X_Thuan   PIN_D6   //Xuong, Vao, Qua la thuan 
+.................... #define X_Nghich  PIN_D5   //Len, Ra, Lai la nghich 
+.................... //!#define Z_Thuan   PIN_D4 
+.................... //!#define Z_Nghich  PIN_D5 
+.................... //!#define Y_Thuan   PIN_D6 
+.................... //!#define Y_Nghich  PIN_D7 
+.................... #define bom       PIN_D7 
+.................... //ngo vao 
+.................... #define X_Cuoi PIN_A4 
+.................... #define X_Dau1 PIN_A5    
+.................... //!#define X_Dau2 PIN_A2   //dap chan 
+.................... //!#define Y_Dau  PIN_A3 
+.................... //!#define Y_Cuoi PIN_A4 
+.................... //!#define Z_Cuoi PIN_A5 
+.................... //!#define Z_Dau  PIN_B0 
+....................  
+....................  
+.................... #define AUTO_BTN  PIN_A0 
+.................... //!#define MODE_BTN  PIN_B6 
+.................... #define END_BTN   PIN_E1 
+.................... #define START_BTN PIN_E0            
+.................... //!#define XUONG_BTN PIN_D0      
+.................... //!#define LEN_BTN   PIN_B4       
+.................... //!#define QUA_BTN   PIN_B3  //toi vi tri 2       
+.................... //!#define LAI_BTN   PIN_B2  //ve vi tri 1     
+.................... //!#define VAO_BTN   PIN_B7       
+.................... //!#define RA_BTN    PIN_B4       
+.................... void ep_Vao(); 
+.................... void nha_Ra(); 
+.................... void main() 
+*
+0066:  CLRF   FF8
+0068:  BCF    FD0.7
+006A:  BCF    04.0
+006C:  BCF    04.1
+006E:  BCF    04.2
+0070:  BCF    04.3
+0072:  BCF    04.4
+0074:  BCF    FB9.0
+0076:  BCF    FC1.6
+0078:  BCF    FC1.7
+007A:  MOVLW  00
+007C:  MOVWF  FB8
+.................... { 
+....................    set_tris_D(0x00); 
+007E:  MOVLW  00
+0080:  MOVWF  F95
+....................    START_STT=input(START_BTN); 
+0082:  BSF    F96.0
+0084:  BCF    04.0
+0086:  BTFSC  F84.0
+0088:  BSF    04.0
+....................    END_STT=input(END_BTN); 
+008A:  BSF    F96.1
+008C:  BCF    04.1
+008E:  BTFSC  F84.1
+0090:  BSF    04.1
+....................    en_Start=0; 
+0092:  BCF    04.3
+....................    en_End=0; 
+0094:  BCF    04.4
+....................    output_d(0xFF); 
+0096:  CLRF   F95
+0098:  SETF   F8C
+....................    while(TRUE) 
+....................    { 
+....................       WHILE ((input(AUTO_BTN))==0) //Che do tu dong chay bom 
+009A:  BSF    F92.0
+009C:  BTFSC  F80.0
+009E:  BRA    00FE
+....................       {   
+....................          OUTPUT_LOW(bom);  
+00A0:  BCF    F95.7
+00A2:  BCF    F8C.7
+....................          if (input(START_BTN)!=START_STT) 
+00A4:  BSF    F96.0
+00A6:  MOVLW  00
+00A8:  BTFSC  F84.0
+00AA:  MOVLW  01
+00AC:  MOVWF  06
+00AE:  MOVLW  00
+00B0:  BTFSC  04.0
+00B2:  MOVLW  01
+00B4:  SUBWF  06,W
+00B6:  BZ    00C8
+....................             {   
+....................                START_STT=input(START_BTN); 
+00B8:  BSF    F96.0
+00BA:  BCF    04.0
+00BC:  BTFSC  F84.0
+00BE:  BSF    04.0
+....................                if (input(START_BTN)==0) en_Start=1; 
+00C0:  BSF    F96.0
+00C2:  BTFSC  F84.0
+00C4:  BRA    00C8
+00C6:  BSF    04.3
+....................             }    
+....................          if (input(END_BTN)!=END_STT) 
+00C8:  BSF    F96.1
+00CA:  MOVLW  00
+00CC:  BTFSC  F84.1
+00CE:  MOVLW  01
+00D0:  MOVWF  06
+00D2:  MOVLW  00
+00D4:  BTFSC  04.1
+00D6:  MOVLW  01
+00D8:  SUBWF  06,W
+00DA:  BZ    00EC
+....................             {   
+....................                END_STT=input(END_BTN); 
+00DC:  BSF    F96.1
+00DE:  BCF    04.1
+00E0:  BTFSC  F84.1
+00E2:  BSF    04.1
+....................                if (input(END_BTN)==0) en_End=1; 
+00E4:  BSF    F96.1
+00E6:  BTFSC  F84.1
+00E8:  BRA    00EC
+00EA:  BSF    04.4
+....................             }    
+....................          if (en_Start) //dap chan 
+00EC:  BTFSS  04.3
+00EE:  BRA    00F4
+....................          {             
+....................             en_Start=0; 
+00F0:  BCF    04.3
+....................             ep_Vao(); 
+00F2:  RCALL  002A
+....................          } 
+....................          if (en_End) 
+00F4:  BTFSS  04.4
+00F6:  BRA    00FC
+....................          { 
+....................             en_End=0; 
+00F8:  BCF    04.4
+....................             nha_Ra(); 
+00FA:  RCALL  004A
+....................          } 
+00FC:  BRA    009A
+....................       } 
+....................       WHILE ((input(AUTO_BTN))==1) //Che do tu dong chay bom 
+00FE:  BSF    F92.0
+0100:  BTFSS  F80.0
+0102:  BRA    015E
+....................       {   
+....................          if (input(START_BTN)!=START_STT) 
+0104:  BSF    F96.0
+0106:  MOVLW  00
+0108:  BTFSC  F84.0
+010A:  MOVLW  01
+010C:  MOVWF  06
+010E:  MOVLW  00
+0110:  BTFSC  04.0
+0112:  MOVLW  01
+0114:  SUBWF  06,W
+0116:  BZ    0128
+....................             {   
+....................                START_STT=input(START_BTN); 
+0118:  BSF    F96.0
+011A:  BCF    04.0
+011C:  BTFSC  F84.0
+011E:  BSF    04.0
+....................                if (input(START_BTN)==0) en_Start=1; 
+0120:  BSF    F96.0
+0122:  BTFSC  F84.0
+0124:  BRA    0128
+0126:  BSF    04.3
+....................             }    
+....................          if (input(END_BTN)!=END_STT) 
+0128:  BSF    F96.1
+012A:  MOVLW  00
+012C:  BTFSC  F84.1
+012E:  MOVLW  01
+0130:  MOVWF  06
+0132:  MOVLW  00
+0134:  BTFSC  04.1
+0136:  MOVLW  01
+0138:  SUBWF  06,W
+013A:  BZ    014C
+....................             {   
+....................                END_STT=input(END_BTN); 
+013C:  BSF    F96.1
+013E:  BCF    04.1
+0140:  BTFSC  F84.1
+0142:  BSF    04.1
+....................                if (input(END_BTN)==0) en_End=1; 
+0144:  BSF    F96.1
+0146:  BTFSC  F84.1
+0148:  BRA    014C
+014A:  BSF    04.4
+....................             }    
+....................          if (en_Start) //dap chan 
+014C:  BTFSS  04.3
+014E:  BRA    0154
+....................          {             
+....................             en_Start=0; 
+0150:  BCF    04.3
+....................             ep_Vao(); 
+0152:  RCALL  002A
+....................          } 
+....................          if (en_End) 
+0154:  BTFSS  04.4
+0156:  BRA    015C
+....................          { 
+....................             en_End=0; 
+0158:  BCF    04.4
+....................             nha_Ra(); 
+015A:  RCALL  004A
+....................          } 
+015C:  BRA    00FE
+....................       } 
+015E:  BRA    009A
+....................    } 
+.................... } 
+.................... void ep_Vao() 
+0160:  SLEEP 
+.................... { 
+....................    //Ep vao 
+....................    if (input(X_Cuoi)) output_low(X_Thuan); 
+*
+002A:  BSF    F92.4
+002C:  BTFSS  F80.4
+002E:  BRA    0034
+0030:  BCF    F95.6
+0032:  BCF    F8C.6
+....................    while (input(X_Cuoi)); 
+0034:  BSF    F92.4
+0036:  BTFSC  F80.4
+0038:  BRA    0034
+....................    output_high(X_Thuan); 
+003A:  BCF    F95.6
+003C:  BSF    F8C.6
+....................    delay_ms(200);    
+003E:  MOVLW  C8
+0040:  MOVWF  05
+0042:  RCALL  0004
+....................    output_low(bom); 
+0044:  BCF    F95.7
+0046:  BCF    F8C.7
+0048:  RETURN 0
+.................... } 
+....................  
+.................... void nha_Ra() 
+.................... { 
+....................    //Nha ra 
+....................    if (input(X_Dau1)) output_low(X_Nghich); 
+004A:  BSF    F92.5
+004C:  BTFSS  F80.5
+004E:  BRA    0054
+0050:  BCF    F95.5
+0052:  BCF    F8C.5
+....................    while (input(X_Dau1)); 
+0054:  BSF    F92.5
+0056:  BTFSC  F80.5
+0058:  BRA    0054
+....................    output_high(X_Nghich); 
+005A:  BCF    F95.5
+005C:  BSF    F8C.5
+....................    delay_ms(200); 
+005E:  MOVLW  C8
+0060:  MOVWF  05
+0062:  RCALL  0004
+0064:  RETURN 0
+.................... } 
+
+Configuration Fuses:
+   Word  1: C200   HS FCMEN IESO
+   Word  2: 3E0E   PUT BROWNOUT BORV20 NOWDT WDT32768 NOWINEN
+   Word  3: 9D3C   NOPWMPIN LPOL_HIGH HPOL_HIGH T1LOWPOWER FLTAC1 SSP_RC PWM4B5 EXCLKC3 MCLR
+   Word  4: 0081   STVREN NOLVP NODEBUG
+   Word  5: C00F   NOPROTECT NOCPB NOCPD
+   Word  6: E00F   NOWRT NOWRTC NOWRTB NOWRTD
+   Word  7: 400F   NOEBTR NOEBTRB

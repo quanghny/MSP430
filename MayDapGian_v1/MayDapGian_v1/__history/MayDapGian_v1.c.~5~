@@ -1,0 +1,232 @@
+#include <18F4550.h>
+#device PASS_STRINGS = IN_RAM    
+#DEVICE *=16 ADC=10                 
+#fuses HSPLL,MCLR,NOWDT,NOPROTECT,NOLVP,NODEBUG,USBDIV,PLL5,CPUDIV1,VREGEN                 
+#use delay(clock=48000000) 
+int1 START_STT=0,mode_tay=1,mode_auto=1,mode_dau=0;
+int1 en_Start=0;
+//mode=1 ep chan; mode=0 ep dau;
+//autoRun=1 tu dong;
+
+//ngo ra dong co thuy luc
+#define X_Thuan   PIN_D6   //Xuong, Vao, Qua la thuan
+#define X_Nghich  PIN_D5   //Len, Ra, Lai la nghich
+//!#define Z_Thuan   PIN_D4
+//!#define Z_Nghich  PIN_D5
+//!#define Y_Thuan   PIN_D6
+//!#define Y_Nghich  PIN_D7
+#define bom       PIN_D7
+//ngo vao
+#define X_Cuoi PIN_A4
+#define X_Dau1 PIN_A5   //dap dau (xa hon)
+//!#define X_Dau2 PIN_A2   //dap chan
+//!#define Y_Dau  PIN_A3
+//!#define Y_Cuoi PIN_A4
+//!#define Z_Cuoi PIN_A5
+//!#define Z_Dau  PIN_B0
+
+
+#define AUTO_BTN  PIN_A0
+//!#define MODE_BTN  PIN_B6
+#define END_BTN   PIN_E1
+#define START_BTN PIN_E0           
+//!#define XUONG_BTN PIN_D0     
+//!#define LEN_BTN   PIN_B4      
+//!#define QUA_BTN   PIN_B3  //toi vi tri 2      
+//!#define LAI_BTN   PIN_B2  //ve vi tri 1    
+#define VAO_BTN   PIN_B7      
+#define RA_BTN    PIN_B4      
+void setupPosition();
+void setupPosition2();
+void bottom_Mode();
+void head_Mode();
+void manual();
+void main()
+{
+   set_tris_D(0x00);
+  // set_tris_B(0xFF);
+//!  // set_tris_A(0xFF);
+//!   MODE_STT=input(MODE_BTN);
+//!   AUTO_STT=input(AUTO_BTN);
+   START_STT=input(START_BTN);
+   en_Start=0;
+   output_d(0xFF);
+   //mode_dau=input(MODE_BTN);
+   //setupPosition();
+   while(TRUE)
+   {
+//!      output_d(0xFF);
+//!      delay_ms(1000);
+//!      output_d(0x00);
+//!      delay_ms(1000);
+//!      output_d(0x55);
+//!      delay_ms(1000);
+//!      output_d(0x00);
+//!      delay_ms(1000);
+//!      output_d(0x66);
+//!      delay_ms(1000);
+//!      if (input(AUTO_BTN)!=AUTO_STT)
+//!            {  
+//!               AUTO_STT=input(AUTO_BTN);
+//!               if (input(AUTO_BTN)==0) en_Auto=1;
+//!               delay_ms(200);
+//!            }
+      WHILE ((input(AUTO_BTN))==0) //Che do tu dong
+      {  
+         if (mode_tay==1)
+         {
+            mode_auto=1;
+            mode_tay=0;
+            OUTPUT_LOW(bom)          
+         }
+         if (input(START_BTN)!=START_STT)
+            {  
+               START_STT=input(START_BTN);
+               if (input(START_BTN)==0) en_Start=1;
+            }         
+         if (en_Start) //dap chan
+         {            
+            en_Start=0;
+            //output_d(0x55);
+            //bottom_Mode();
+         }
+      }
+//!      WHILE ((input(AUTO_BTN))==1) //Che do dieu khien bang tay
+//!      {
+//!         //output_d(0x78);
+//!         if (mode_auto==1)
+//!         {
+//!            mode_auto=0;
+//!            mode_tay=1;
+//!            output_d(0xff);  //dung cac dong co
+//!         }
+//!         manual();
+//!      }
+   }
+}
+void head_Mode()
+{
+   //Ep xuong
+   if (input(Z_Cuoi)) output_low(Z_Thuan);
+   while (input(Z_Cuoi));
+   output_high(Z_Thuan);
+   //Ep vao
+   if (input(X_Cuoi)) output_low(X_Thuan);
+   while (input(X_Cuoi));
+   output_high(X_Thuan);
+   //Nha ra
+   if (input(X_Dau1)) output_low(X_Nghich);
+   while (input(X_Dau1));
+   output_high(X_Nghich);
+   //Qua (Vi tri 2)
+   if (input(Y_Cuoi)) output_low(Y_Thuan);
+   while (input(Y_Cuoi));
+   output_high(Y_Thuan);
+   //Ep vao
+   if (input(X_Cuoi)) output_low(X_Thuan);
+   while (input(X_Cuoi));
+   output_high(X_Thuan);
+   //Nha ra
+   if (input(X_Dau1)) output_low(X_Nghich);
+   while (input(X_Dau1));
+   output_high(X_Nghich);
+   //Lai (Vi tri 1 - ban dau)
+   if (input(Y_Dau)) output_low(Y_Nghich);
+   while (input(Y_Dau));
+   output_high(Y_Nghich);
+   //Nha len
+   if (input(Z_Dau)) output_low(Z_Nghich);
+   while (input(Z_Dau));
+   output_high(Z_Nghich);
+}
+void bottom_Mode()
+{
+   //Ep xuong
+   if (input(Z_Cuoi)) output_low(Z_Thuan);
+   while (input(Z_Cuoi));
+   output_high(Z_Thuan);
+   delay_ms(200);
+   //Ep vao
+   if (input(X_Cuoi)) output_low(X_Thuan);
+   while (input(X_Cuoi));
+   output_high(X_Thuan);
+   delay_ms(200);
+   //Nha ra
+   if (input(X_Dau2)) output_low(X_Nghich);
+   while (input(X_Dau2));
+   output_high(X_Nghich);
+   delay_ms(200);
+   //Nha len
+   if (input(Z_Dau)) output_low(Z_Nghich);
+   while (input(Z_Dau));
+   output_high(Z_Nghich);
+   delay_ms(200);
+}
+void manual()
+{
+   //xuong
+   while ((input(Z_Cuoi))&&(input(XUONG_BTN)==1)) output_low(Z_Thuan);
+   output_high(Z_Thuan);
+// delay_ms(200);
+//!   //len
+//!   while ((input(Z_Dau))&&(input(LEN_BTN)==0)) output_low(Z_Nghich);
+//!   output_high(Z_Nghich);
+//!// delay_ms(200);
+   //output_d(0xff);
+   //Vao
+   while ((input(X_Cuoi))&&((input(VAO_BTN))==0)) output_low(X_Thuan);
+   output_high(X_Thuan);
+// delay_ms(200);
+   //RA
+   while ((input(X_Dau1))&&((input(RA_BTN))==0)) output_low(X_Nghich);
+   output_high(X_Nghich);
+// delay_ms(200);
+   //Qua
+   while ((input(Y_Cuoi))&&((input(QUA_BTN))==0)) output_low(Y_Thuan);
+   output_high(Y_Thuan);
+// delay_ms(200);
+   //Lai
+   while ((input(Y_Dau))&&((input(LAI_BTN)==0))) output_low(Y_Nghich);
+   output_high(Y_Nghich);
+// delay_ms(200);
+}
+void setupPosition()
+{
+   //khoi tao truc X, nha ra
+   if (input(X_Dau1)!=0) output_low(X_Nghich);
+   while (input(X_Dau1));
+   output_high(X_Nghich);
+   delay_ms(200);
+   //khoi tao truc Z
+   if (input(Z_Dau)!=0) output_low(Z_Nghich);
+   while (input(Z_Dau));
+   output_high(Z_Nghich);
+   delay_ms(200);
+   //khoi tao truc Y
+   if (input(Y_Dau)!=0) output_low(Y_Nghich);
+   while (input(Y_Dau));
+   output_high(Y_Nghich);
+   delay_ms(200);
+}
+void setupPosition2()
+{
+   //khoi tao truc X, nha ra
+   if (input(X_Dau1)!=0) output_low(X_Nghich);
+   while (input(X_Dau1));
+   output_high(X_Nghich);
+   delay_ms(200);
+   if (input(X_Dau2)!=0) output_low(X_Thuan);
+   while (input(X_Dau2));
+   output_high(X_Thuan);
+   delay_ms(200);
+   //khoi tao truc Z
+   if (input(Z_Dau)!=0) output_low(Z_Nghich);
+   while (input(Z_Dau));
+   output_high(Z_Nghich);
+   delay_ms(200);
+   //khoi tao truc Y
+   if (input(Y_Dau)!=0) output_low(Y_Nghich);
+   while (input(Y_Dau));
+   output_high(Y_Nghich);
+   delay_ms(200);
+}

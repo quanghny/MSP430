@@ -1,0 +1,70 @@
+000     @SCRATCH
+001     @SCRATCH
+001     _RETURN_
+002     @SCRATCH
+003     @SCRATCH
+004.0   START_STT
+004.1   END_STT
+004.2   mode_tay
+004.3   en_Start
+004.4   en_End
+005     @delay_ms1.P1
+005     main.@SCRATCH1
+006     main.@SCRATCH2
+F6C.2   FLTA
+F6C.6   FLTB
+FBB     CCP_2_LOW
+FBB     CCP_2
+FBC     CCP_2_HIGH
+FBE     CCP_1
+FBE     CCP_1_LOW
+FBF     CCP_1_HIGH
+FE1-FE2 @WRITE_PACKED_MEMORY.P1
+FE1-FE2 @READ_PACKED_MEMORY.P2
+FE9-FEA @WRITE_PACKED_MEMORY.P1
+FE9-FEA @READ_PROGRAM_MEMORY.P2
+FE9-FEA @READ_PACKED_MEMORY.P3
+FE9-FEA @WRITE_PROGRAM_MEMORY.P4
+FF6-FF8 @READ_PROGRAM_MEMORY.P1
+FF6-FF8 @WRITE_PROGRAM_MEMORY.P2
+
+ROM Allocation:
+000004  @delay_ms1
+00002A  ep_Vao
+00004A  nha_Ra
+000066  main
+000066  @cinit1
+00007E  @cinit2
+
+Project Directory:
+    E:\PIC C\F4550\MayDapGian_v1\
+
+Project Files:
+    MayDapGian_v1.c                                         [18-Apr-18 13:10  CRC=F38BC898]
+    C:\Program Files (x86)\PICC\Devices\18F4431.h           [18-Apr-14 16:57  CRC=FA68B727]
+
+Source signature=E85D36E6
+
+Units:
+    MayDapGian_v1 (main)
+
+Compiler Settings:
+    Processor:      PIC18F4431
+    Pointer Size:   16
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+    Compile Mode:       CCS5
+
+Output Files:
+    XREF file:   MayDapGian_v1.xsym
+    Errors:      MayDapGian_v1.err
+    Ext Symbols: MayDapGian_v1.esym
+    INHX32:      MayDapGian_v1.hex
+    Symbols:     MayDapGian_v1.sym
+    List:        MayDapGian_v1.lst
+    Debug/COFF:  MayDapGian_v1.cof
+    Project:     MayDapGian_v1.ccspjt
+    Call Tree:   MayDapGian_v1.tre
+    Statistics:  MayDapGian_v1.STA
